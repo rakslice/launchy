@@ -83,15 +83,21 @@ QIcon UnixIconProvider::icon(const QFileInfo& info)
     return QIcon(getDesktopIcon(desktop));
 }
 
-QString UnixIconProvider::getDesktopIcon(QString desktopFile, QString IconName) {    
+QString trailingSlash(QString s) {
+	int len = s.length();
+	if (len > 0 && s[len - 1] == '/') {
+		return s;
+	} else {
+		return s + '/';
+	}
+}
+
+QString UnixIconProvider::getDesktopIcon(QString desktopFile, QString IconName) {
+	//qDebug() << "need icon" << IconName << "for" << desktopFile;
+
     if (QFile::exists(desktopFile)) 
 	desktopFile = desktopFile.mid(desktopFile.lastIndexOf("/")+1);	
     
-    if (desktopFile.contains("dolphin")) {
-            int x = 1;
-            x += 1;
-    }
-
     if (desktop2icon.contains(desktopFile) && IconName == "")
 	IconName = desktop2icon[desktopFile];    
     if (IconName == "") {
@@ -103,6 +109,8 @@ QString UnixIconProvider::getDesktopIcon(QString desktopFile, QString IconName) 
 	for(int i = 0; i < 5; i++) {
 	    QString dir = dirs[i];
 	    QString path = dir + "/" + desktopFile;
+
+	    //qDebug() << "Rereading the icon file for some reason...";
 
 	    if (QFile::exists(path)) {
 		QFile file(path);
@@ -158,7 +166,7 @@ QString UnixIconProvider::getDesktopIcon(QString desktopFile, QString IconName) 
 
 	foreach(QString dir, xdgDataDirs) {
 	    foreach(QString thm, themes) {
-		dirs += dir + "/icons" + thm;
+		dirs += trailingSlash(dir) + "icons" + thm;
 	    }
 	}
 
@@ -168,6 +176,9 @@ QString UnixIconProvider::getDesktopIcon(QString desktopFile, QString IconName) 
 	foreach(QString dir, dirs) {
 	    QDir d(dir);
 	    QStringList sdirs;
+
+	    //qDebug() << "Checking dir" << dir;
+
 	    if (!dir.endsWith("pixmaps"))
 		sdirs = d.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
 	    sdirs += "."; 
