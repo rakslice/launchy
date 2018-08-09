@@ -233,6 +233,8 @@ void PlatformUnix::alterItem(CatItem* item) {
 //    shared_ptr<UnixIconProvider> u((UnixIconProvider*) icons.get());
     
     //icon = u->getDesktopIcon(file.fileName(), icon);
+
+    /*
     icon = ((UnixIconProvider*)icons)->getDesktopIcon(file.fileName(), icon);
 
     QFileInfo inf(icon);
@@ -240,6 +242,7 @@ void PlatformUnix::alterItem(CatItem* item) {
         qDebug() << "couldn't find icon for" << icon << item->fullPath;
         return;
     }
+    */
 
     item->icon = icon;
 
