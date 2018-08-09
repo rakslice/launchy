@@ -29,7 +29,7 @@ UnixIconProvider::UnixIconProvider() {
 }
 
 
-QIcon UnixIconProvider::icon(const QFileInfo& info)
+QIcon UnixIconProvider::icon(const QFileInfo& info) const
 {
     QString name = info.fileName();
 
@@ -92,7 +92,7 @@ QString trailingSlash(QString s) {
 	}
 }
 
-QString UnixIconProvider::getDesktopIcon(QString desktopFile, QString IconName) {
+QString UnixIconProvider::getDesktopIcon(QString desktopFile, QString IconName) const {
 	//qDebug() << "need icon" << IconName << "for" << desktopFile;
 
     if (QFile::exists(desktopFile)) 

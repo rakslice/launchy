@@ -10,15 +10,15 @@
 class UnixIconProvider : public QFileIconProvider
 {
  private:
-    QHash<QString, QString> file2mime;
-    QHash<QString, QString> mime2desktop;
-    QHash<QString, QString> desktop2icon;
-    QHash<QString, QString> icon2path;
+    mutable QHash<QString, QString> file2mime;
+    mutable QHash<QString, QString> mime2desktop;
+    mutable QHash<QString, QString> desktop2icon;
+    mutable QHash<QString, QString> icon2path;
     QStringList xdgDataDirs;
  public:
     UnixIconProvider();
     ~UnixIconProvider() {}
-    virtual QIcon icon(const QFileInfo& info);
-    QString getDesktopIcon(QString desktopFile, QString IconName = "");
+    virtual QIcon icon(const QFileInfo& info) const;
+    QString getDesktopIcon(QString desktopFile, QString IconName = "") const;
 };
 
