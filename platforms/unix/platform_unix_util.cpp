@@ -7,14 +7,25 @@
 #include <QPainter>
 #include <QProcess>
 
-UnixIconProvider::UnixIconProvider() {
+QString getEnvVar(const QString name, const QString defaultVal) {
+
+	if (name.contains('=')) return defaultVal;
+
+	QString prefix = name + "=";
     foreach(QString line, QProcess::systemEnvironment()) {
-	if (!line.startsWith("XDG_DATA_DIRS", Qt::CaseInsensitive))
-	    continue;
-	QStringList spl = line.split("=");
-	xdgDataDirs = spl[1].split(":");	
+        if (!line.startsWith(prefix))
+            continue;
+        return line.section('=', 1);
     }
-    xdgDataDirs += "/usr/share/icons/";
+
+    return defaultVal;
+}
+
+UnixIconProvider::UnixIconProvider() {
+    // default per XDG Base Directory Specification 0.7
+    // https://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html#variables
+    QString xdgDataDirsStr = getEnvVar("XDG_DATA_DIRS", "/usr/local/share/:/usr/share/");
+    xdgDataDirs = xdgDataDirsStr.split(":");
 }
 
 
