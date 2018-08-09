@@ -4,7 +4,19 @@ src/release/*
 src/build/*
 release/*
 plugins/*/release
+
+src/debug
+debug
+
 *.deb
 *.o
 moc_*
 ui_*
+
+# eclipse
+.cproject
+.project
+.settings
+
+# geany
+*.geany
